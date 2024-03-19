@@ -1,7 +1,8 @@
 import pygame
 import random
 import time
-from control import read_button, write_right_display, write_left_display, digit_to_7seg
+import threading
+from control import read_button, write_right_display, write_left_display, digit_to_7seg, write_green_leds, write_red_leds
 
 pygame.init()
 
@@ -14,6 +15,9 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Drone")
 
 running = True
+
+write_green_leds(0b0)
+write_red_leds(0b0)
 
 class Particle:
     def __init__(self, x, y, color, lifetime):
@@ -84,6 +88,7 @@ class Drone:
         self.score = 0
         self.angular_speed = 0
         self.angular_acceleration = 0
+        start_time = time.time()
         
 
     def draw(self, screen):
@@ -180,7 +185,13 @@ drone_image = pygame.image.load("drone.png")
 drone = Drone(screen_width // 2, screen_height // 2, drone_image)
 drone.original_image = drone_image
 
+def green_led_update():
+    write_green_leds(0b11111111)
+    time.sleep(0.7)
+    write_green_leds(0b0)
+
 coins = [] 
+thread = threading.Thread(target=green_led_update)
 
 def spawn_coin():
     if len(coins) < 3:  # Keep a maximum of 3 coins on screen
@@ -193,6 +204,9 @@ def check_coin_collision():
             coins.remove(coin)
             drone.score += 1
             spawn_coin() 
+            thread.start()
+
+
 
 font = pygame.font.SysFont('Arial', 30) 
 
@@ -209,6 +223,7 @@ while running:
     remaining_time = GAME_DURATION - elapsed_time
     if remaining_time <= 0:
         drone.reset()
+        coins = []
         start_time = time.time()
 
     screen.fill((135, 206, 250))
@@ -232,7 +247,7 @@ while running:
 
     minutes_seconds = int(str(minutes) + str(seconds))
 
-    write_left_display(minutes_seconds)
+    write_left_display(digit_to_7seg(minutes_seconds))
 
     write_right_display(digit_to_7seg(drone.score))
 
