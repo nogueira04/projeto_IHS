@@ -11,30 +11,29 @@ WR_R_DISPLAY  = 24932
 WR_RED_LEDS   = 24933
 WR_GREEN_LEDS = 24934
 
-def main():
-    if len(sys.argv) < 2:
-        print("Error: expected more command line arguments")
-        print("Syntax: %s </dev/device_file>"%sys.argv[0])
-        exit(1)
-
-    fd = os.open(sys.argv[1], os.O_RDWR)
-
+def read_button():
+    fd = os.open("/dev/pci_driver", os.O_RDWR)
     ioctl(fd, RD_PBUTTONS)
     red = os.read(fd, 4); # read 4 bytes and store in red var
     red_number = int.from_bytes(red, 'little')
-
-    if red_number == 0x7:
-        print("botao 1")
-    elif red_number == 11:
-        print("botao 2")
-    elif red_number == 13:
-        print("botao 3")
-    elif red_number == 14:
-        print("botao 4")
-    elif red_number == 6:
-        print("botao 1 e 4")
-
     os.close(fd)
+
+    if red_number == 7:
+        return 'LEFT'
+    elif red_number == 11:
+        return 'DOWN'
+    elif red_number == 13:
+        return 'UP'
+    elif red_number == 14:
+        return "RIGHT"
+    elif red_number == 6:
+        return "LEFT+RIGHT"
+
+    return red_number
+
+def main():
+    while True:
+        print(read_button())
 
 if __name__ == '__main__':
     main()
