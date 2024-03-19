@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-from control import read_button
+from control import read_button, write_right_display, write_left_display, digit_to_7seg
 
 pygame.init()
 
@@ -215,6 +215,8 @@ while running:
 
     drone.update(dt)
     drone.draw(screen)
+
+    write_right_display(digit_to_7seg(drone.score))
 
     pygame.display.flip()
 

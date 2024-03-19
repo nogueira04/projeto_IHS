@@ -63,4 +63,4 @@ def digit_to_7seg(numero):
     return int("".join(["{:02X}".format(segmento) for segmento in segmentos]), 16)
     
     
-write_right_display(digit_to_7seg(1234))
+write_right_display(digit_to_7seg(0))
