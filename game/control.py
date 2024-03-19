@@ -12,7 +12,7 @@ WR_RED_LEDS   = 24933
 WR_GREEN_LEDS = 24934
 
 def read_button():
-    fd = os.open("/dev/pci_driver", os.O_RDWR)
+    fd = os.open("/dev/mydev", os.O_RDWR)
     ioctl(fd, RD_PBUTTONS)
     red = os.read(fd, 4); # read 4 bytes and store in red var
     red_number = int.from_bytes(red, 'little')
@@ -29,7 +29,7 @@ def read_button():
     elif red_number == 6:
         return "LEFT+RIGHT"
 
-    return red_number
+    return ''
 
 def main():
     while True:
