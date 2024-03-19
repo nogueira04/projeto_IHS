@@ -50,6 +50,11 @@ def dec_to_7seg(number):
         8: 0x80,
         9: 0x90
     }[number]
+
+def digit_to_7seg(numero):
+    digitos = str(numero).zfill(4)
+    segmentos = [dec_to_7seg(int(digito)) for digito in digitos]
+    return "".join(["{:02X}".format(segmento) for segmento in segmentos])
     
     
-write_right_display(dec_to_7seg(2))
+print(digit_to_7seg(1))
