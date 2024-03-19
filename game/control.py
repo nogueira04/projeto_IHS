@@ -54,7 +54,7 @@ def dec_to_7seg(number):
 def digit_to_7seg(numero):
     digitos = str(numero).zfill(4)
     segmentos = [dec_to_7seg(int(digito)) for digito in digitos]
-    return "".join(["{:02X}".format(segmento) for segmento in segmentos])
+    return int("".join(["{:02X}".format(segmento) for segmento in segmentos]), 16)
     
     
-print(digit_to_7seg(1))
+write_right_display(digit_to_7seg(1234))
