@@ -49,6 +49,12 @@ def write_red_leds(data):
     retval = os.write(fd, data.to_bytes(4, 'little'))
     os.close(fd)
 
+def write_green_leds(data):
+    fd = os.open("/dev/mydev", os.O_RDWR)
+    ioctl(fd, WR_GREEN_LEDS)
+    retval = os.write(fd, data.to_bytes(4, 'little'))
+    os.close(fd)
+
 def dec_to_7seg(number):
     return {
         0: 0xC0,
