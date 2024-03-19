@@ -185,13 +185,8 @@ drone_image = pygame.image.load("drone.png")
 drone = Drone(screen_width // 2, screen_height // 2, drone_image)
 drone.original_image = drone_image
 
-def green_led_update():
-    write_green_leds(0b11111111)
-    time.sleep(0.7)
-    write_green_leds(0b0)
 
 coins = [] 
-thread = threading.Thread(target=green_led_update)
 
 def spawn_coin():
     if len(coins) < 3:  # Keep a maximum of 3 coins on screen
@@ -204,9 +199,16 @@ def check_coin_collision():
             coins.remove(coin)
             drone.score += 1
             spawn_coin() 
-            thread.start()
+            write_green_leds(0b11111111)
+            time.sleep(0.7)
+            write_green_leds(0b0)
 
+def generate_time_binary(remaining_time, total_time, num_bits=18):
+    filled_bits = int((num_bits * remaining_time) / total_time)
+    empty_bits = num_bits - filled_bits
 
+    binary_string = '1' * filled_bits + '0' * empty_bits
+    return int(binary_string, 2)  # Convert binary string to integer
 
 font = pygame.font.SysFont('Arial', 30) 
 
@@ -250,6 +252,8 @@ while running:
     write_left_display(digit_to_7seg(minutes_seconds))
 
     write_right_display(digit_to_7seg(drone.score))
+
+    write_red_leds(generate_time_binary(remaining_time, GAME_DURATION))
 
     pygame.display.flip()
 
