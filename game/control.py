@@ -38,27 +38,18 @@ def write_right_display(data):
     os.close(fd)
 
 def dec_to_7seg(number):
-    if number == 0:
-        return 0x40404040
-    elif number == 1:
-        return 0x40404079
-    elif number == 2:
-        return 0x4040405b
-    elif number == 3:
-        return 0b01001111
-    elif number == 4:
-        return 0b01100110
-    elif number == 5:
-        return 0b01101101
-    elif number == 6:
-        return 0b01111101
-    elif number == 7:
-        return 0b00000111
-    elif number == 8:
-        return 0b01111111
-    elif number == 9:
-        return 0b01101111
-    else:
-        return 0b00000000
+    return {
+        0: 0xC0,
+        1: 0xF9,
+        2: 0xA4,
+        3: 0xB0,
+        4: 0x99,
+        5: 0x92,
+        6: 0x82,
+        7: 0xF8,
+        8: 0x80,
+        9: 0x90
+    }[number]
+    
     
 write_right_display(dec_to_7seg(2))
