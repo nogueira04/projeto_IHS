@@ -31,3 +31,34 @@ def read_button():
 
     return ''
 
+def write_right_display(data):
+    fd = os.open("/dev/mydev", os.O_RDWR)
+    ioctl(fd, WR_R_DISPLAY)
+    retval = os.write(fd, data.to_bytes(4, 'little'))
+    os.close(fd)
+
+def dec_to_7seg(number):
+    if number == 0:
+        return 0x40404040
+    elif number == 1:
+        return 0x40404079
+    elif number == 2:
+        return 0x4040405b
+    elif number == 3:
+        return 0b01001111
+    elif number == 4:
+        return 0b01100110
+    elif number == 5:
+        return 0b01101101
+    elif number == 6:
+        return 0b01111101
+    elif number == 7:
+        return 0b00000111
+    elif number == 8:
+        return 0b01111111
+    elif number == 9:
+        return 0b01101111
+    else:
+        return 0b00000000
+    
+write_right_display(dec_to_7seg(2))
