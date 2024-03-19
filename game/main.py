@@ -118,7 +118,7 @@ class Drone:
             self.generate_particles(1)  
 
         self.y_acceleration -= upward_thrust
-        thrust_difference = self.right_thrust * keys[pygame.K_RIGHT] - self.left_thrust * keys[pygame.K_LEFT]
+        thrust_difference = self.right_thrust * (1 if key == 'RIGHT' else 0) - self.left_thrust * (1 if key == 'LEFT' else 0)
         self.x_acceleration += (thrust_difference / 0.5)  
         self.y_acceleration += self.gravity
 
