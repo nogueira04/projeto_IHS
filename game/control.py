@@ -25,12 +25,14 @@ def main():
 
     if red_number == 0x7:
         print("botao 1")
-    elif red_number == 0xB:
+    elif red_number == 11:
         print("botao 2")
-    elif red_number == 0xD:
+    elif red_number == 13:
         print("botao 3")
-    elif red_number == 0xE:
+    elif red_number == 14:
         print("botao 4")
+    elif red_number == 6:
+        print("botao 1 e 4")
 
     os.close(fd)
 
