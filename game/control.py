@@ -21,15 +21,15 @@ def main():
 
     ioctl(fd, RD_PBUTTONS)
     red = os.read(fd, 4); # read 4 bytes and store in red var
-    print("red 0x%X"%int.from_bytes(red, 'little'))
+    red_number = int.from_bytes(red, 'little')
 
-    if red == 0x7:
+    if red_number == 0x7:
         print("botao 1")
-    elif red == 0xB:
+    elif red_number == 0xB:
         print("botao 2")
-    elif red == 0xD:
+    elif red_number == 0xD:
         print("botao 3")
-    elif red == 0xE:
+    elif red_number == 0xE:
         print("botao 4")
 
     os.close(fd)
