@@ -31,10 +31,3 @@ def read_button():
 
     return ''
 
-def main():
-    while True:
-        print(read_button())
-
-if __name__ == '__main__':
-    main()
-

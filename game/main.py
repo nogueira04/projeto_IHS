@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+from control import read_button
 
 pygame.init()
 
@@ -100,18 +101,19 @@ class Drone:
 
 
         upward_thrust = 0
-        if keys[pygame.K_UP]:
+        key = read_button()
+        if key == 'UP':
             upward_thrust += 50
             self.generate_particles(1)
             self.generate_particles(-1)
-        if keys[pygame.K_DOWN]:
+        if key == 'DOWN':
             upward_thrust -= 50
             self.generate_particles(1)
             self.generate_particles(-1)
-        if keys[pygame.K_LEFT]:
+        if key == 'LEFT':
             upward_thrust -= self.left_thrust
             self.generate_particles(-1)  
-        if keys[pygame.K_RIGHT]:
+        if key == 'RIGHT':
             upward_thrust -= self.right_thrust
             self.generate_particles(1)  
 
