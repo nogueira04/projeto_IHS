@@ -5,6 +5,9 @@ from control import read_button, write_right_display, write_left_display, digit_
 
 pygame.init()
 
+GAME_DURATION = 120
+start_time = time.time()
+
 screen_width = 800
 screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -202,19 +205,34 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
+    elapsed_time = time.time() - start_time
+    remaining_time = GAME_DURATION - elapsed_time
+    if remaining_time <= 0:
+        drone.reset()
+        start_time = time.time()
+
     screen.fill((135, 206, 250))
 
     check_coin_collision() 
     spawn_coin() 
 
+    time_text = font.render('Time: ' + str(int(remaining_time)), True, (255, 255, 255))
     score_text = font.render('Score: ' + str(drone.score), True, (255, 255, 255)) 
     screen.blit(score_text, (10, 10))
+    screen.blit(time_text, (10, 50))
 
     for coin in coins: 
         coin.draw(screen) 
 
     drone.update(dt)
     drone.draw(screen)
+
+    minutes = int(remaining_time // 60)
+    seconds = int(remaining_time % 60)
+
+    minutes_seconds = int(str(minutes) + str(seconds))
+
+    write_left_display(minutes_seconds)
 
     write_right_display(digit_to_7seg(drone.score))
 
