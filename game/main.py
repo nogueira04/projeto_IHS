@@ -18,9 +18,9 @@ running = True
 write_green_leds(0b0)
 write_red_leds(0b0)
 
-cloud_image = pygame.image.load("cloud.png").convert_alpha()  # Assuming you have a 'cloud.png'
+cloud_image = pygame.image.load("cloud.png").convert_alpha() 
+mountain_image = pygame.image.load("mountain.png").convert() 
 
-# Define a Cloud class
 class Cloud:
     def __init__(self):
         self.x = random.randint(screen_width, screen_width + 100)  # Start offscreen
@@ -30,7 +30,7 @@ class Cloud:
 
     def update(self):
         self.x -= self.speed
-        if self.x < -self.image.get_width():  # Offscreen?  Respawn!
+        if self.x < -self.image.get_width():  # Respawn when offscreen
             self.x = random.randint(screen_width, screen_width + 100)
             self.y = random.randint(10, screen_height - 100)  
             self.speed = random.uniform(0.5, 1.5) 
@@ -256,7 +256,8 @@ while running:
         write_green_leds(0b0)
         last_led_update = current_time
 
-    screen.fill((135, 206, 250))
+    screen.blit(mountain_image, (0, 0)) 
+    screen.fill((237, 240, 244))
 
     for cloud in clouds:
         cloud.update()
