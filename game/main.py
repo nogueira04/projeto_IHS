@@ -19,7 +19,7 @@ write_green_leds(0b0)
 write_red_leds(0b0)
 
 cloud_image = pygame.image.load("cloud.png").convert_alpha() 
-mountain_image = pygame.image.load("mountain.png").convert() 
+mountain_image = pygame.image.load("mountain.png").convert_alpha()
 
 class Cloud:
     def __init__(self):
@@ -256,9 +256,11 @@ while running:
         write_green_leds(0b0)
         last_led_update = current_time
 
-    screen.blit(mountain_image, (0, 0)) 
+    mountain_y = screen_height - mountain_image.get_height()
+
     screen.fill((237, 240, 244))
 
+    screen.blit(mountain_image, (0, 0)) 
     for cloud in clouds:
         cloud.update()
         cloud.draw(screen)
