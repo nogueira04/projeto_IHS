@@ -193,15 +193,13 @@ def spawn_coin():
         coins.append(Coin())
 
 def check_coin_collision():
-    global score 
+    global score, drone, coins
     for coin in coins:
         if drone.rect.colliderect(coin.rect):
             coins.remove(coin)
             drone.score += 1
             spawn_coin() 
-            write_green_leds(0b11111111)
-            time.sleep(0.7)
-            write_green_leds(0b0)
+            
 
 def generate_time_binary(remaining_time, total_time, num_bits=18):
     filled_bits = int((num_bits * remaining_time) / total_time)
@@ -211,6 +209,9 @@ def generate_time_binary(remaining_time, total_time, num_bits=18):
     return int(binary_string, 2)  # Convert binary string to integer
 
 font = pygame.font.SysFont('Arial', 30) 
+
+last_led_update = time.time()
+led_update_interval = 0.7
 
 last_time = time.time()
 while running:
@@ -227,6 +228,13 @@ while running:
         drone.reset()
         coins = []
         start_time = time.time()
+
+    current_time = time.time()
+    if current_time - last_led_update >= led_update_interval
+        write_green_leds(0b11111111)
+        last_led_update = current_time
+    else:
+        write_green_leds(0b0)
 
     screen.fill((135, 206, 250))
 
