@@ -1,7 +1,6 @@
 import pygame
 import random
 import time
-import threading
 from control import read_button, write_right_display, write_left_display, digit_to_7seg, write_green_leds, write_red_leds
 
 pygame.init()
@@ -254,9 +253,12 @@ while running:
     minutes = int(remaining_time // 60)
     seconds = int(remaining_time % 60)
 
-    minutes_seconds = int(str(minutes) + str(seconds))
+    minutes_seconds = int(str(minutes) + str(seconds if seconds >= 10 else '0' + str(seconds)))
+    print("minutes: ", minutes)
+    print("seconds: ", seconds)
+    print(minutes_seconds)
 
-    write_left_display(digit_to_7seg(minutes_seconds))
+    write_left_display(digit_to_7seg(abs(minutes_seconds)))
 
     write_right_display(digit_to_7seg(drone.score))
 
