@@ -189,7 +189,7 @@ class Drone:
                 x_offset = (self.image.get_width()) // 2
             
             y_offset = random.randint(5, 15)
-            particle_color = (random.randint(100, 255), 255, 255) 
+            particle_color = (random.randint(0, 255), 200, 255) 
             self.particles.append(Particle(self.x + x_offset, self.y + y_offset, particle_color, 1))  
 
     def update_particles(self, dt):
@@ -260,7 +260,7 @@ while running:
 
     screen.fill((237, 240, 244))
 
-    screen.blit(mountain_image, (0, 0)) 
+    screen.blit(mountain_image, (0, 100)) 
     for cloud in clouds:
         cloud.update()
         cloud.draw(screen)
