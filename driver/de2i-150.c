@@ -8,7 +8,7 @@
 #include <linux/uaccess.h>	/* copy_*_user functions */
 #include <linux/pci.h>		/* pci funcs and types */
 
-#include "../../include/ioctl_cmds.h"
+#include "../include/ioctl_cmds.h"
 
 /* meta information */
 
