@@ -21,16 +21,18 @@ write_red_leds(0b0)
 cloud_image = pygame.image.load("cloud.png").convert_alpha() 
 mountain_image = pygame.image.load("mountain.png").convert_alpha()
 
+coins = []
+
 class Cloud:
     def __init__(self):
-        self.x = random.randint(screen_width, screen_width + 100)  # Start offscreen
+        self.x = random.randint(screen_width, screen_width + 100)  # Começa forada tela
         self.y = random.randint(10, screen_height - 100)
-        self.speed = random.uniform(0.5, 1.5)  # Randomize speed
+        self.speed = random.uniform(0.5, 1.5)  # Randomiza velocidad
         self.image = cloud_image
 
     def update(self):
         self.x -= self.speed
-        if self.x < -self.image.get_width():  # Respawn when offscreen
+        if self.x < -self.image.get_width():  # Gera nova nuvem quando sai da tela
             self.x = random.randint(screen_width, screen_width + 100)
             self.y = random.randint(10, screen_height - 100)  
             self.speed = random.uniform(0.5, 1.5) 
@@ -60,7 +62,7 @@ class Coin:
     def __init__(self):
         self.x = random.randint(0, screen_width)
         self.y = random.randint(0, screen_height)
-        self.image = pygame.image.load("coin.png")  # Load your coin image
+        self.image = pygame.image.load("coin.png")  
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
     def draw(self, screen):
@@ -97,6 +99,7 @@ class Drone:
         self.velocity_y = 0
 
     def reset(self):
+        global start_time, coins
         self.x = screen_width // 2
         self.y = screen_height // 2
         self.x_acceleration = 0
@@ -108,6 +111,7 @@ class Drone:
         self.angular_speed = 0
         self.angular_acceleration = 0
         start_time = time.time()
+        coins = []
         
 
     def draw(self, screen):
@@ -149,14 +153,13 @@ class Drone:
         self.x_acceleration += (thrust_difference / 0.5)  
         self.y_acceleration += self.gravity
 
-        lever_arm = self.image.get_width() / 12  # Adjust as needed
+        lever_arm = self.image.get_width() / 4  # Distancia ao eixo de rotação
         torque = thrust_difference * lever_arm  
 
-        I = 0.5  # Estimated moment of inertia (adjust for your drone shape)
+        I = 8  # Momento de inercia
         self.angular_acceleration = torque / I
 
 
-        # Update velocity based on acceleration
         self.velocity_x += self.x_acceleration * dt
         self.velocity_y += self.y_acceleration * dt
         self.angular_speed += self.angular_acceleration * dt 
@@ -165,14 +168,14 @@ class Drone:
 
         self.move(self.velocity_x * dt, self.velocity_y * dt)
 
-        # Apply friction 
+        # Atrito com o ar
         self.velocity_x *= 0.95
         self.velocity_y *= 0.95  
 
-        # Apply rotation
+        # Rotação
         self.image = pygame.transform.rotate(self.original_image, self.rotation)
 
-        # Update and draw particles
+        # Desenhar e atualizar particulas
         self.update_particles(dt)
         if self.rect.top <= -20 or self.rect.bottom >= screen_height + 20:
             self.reset()
@@ -205,10 +208,8 @@ drone = Drone(screen_width // 2, screen_height // 2, drone_image)
 drone.original_image = drone_image
 
 
-coins = [] 
-
 def spawn_coin():
-    if len(coins) < 3:  # Keep a maximum of 3 coins on screen
+    if len(coins) < 3:  
         coins.append(Coin())
 
 def check_coin_collision():
@@ -226,7 +227,7 @@ def generate_time_binary(remaining_time, total_time, num_bits=18):
     empty_bits = num_bits - filled_bits
 
     binary_string = '1' * filled_bits + '0' * empty_bits
-    return int(binary_string, 2)  # Convert binary string to integer
+    return int(binary_string, 2)  
 
 font = pygame.font.SysFont('Arial', 30) 
 
