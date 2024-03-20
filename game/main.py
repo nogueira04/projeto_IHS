@@ -199,6 +199,7 @@ def check_coin_collision():
             coins.remove(coin)
             drone.score += 1
             spawn_coin() 
+            write_green_leds(0b11111111)
             
 
 def generate_time_binary(remaining_time, total_time, num_bits=18):
@@ -230,11 +231,9 @@ while running:
         start_time = time.time()
 
     current_time = time.time()
-    if current_time - last_led_update >= led_update_interval
-        write_green_leds(0b11111111)
-        last_led_update = current_time
-    else:
+    if current_time - last_led_update >= led_update_interval:
         write_green_leds(0b0)
+        last_led_update = current_time
 
     screen.fill((135, 206, 250))
 
