@@ -24,7 +24,7 @@ cloud_image = pygame.image.load("cloud.png").convert_alpha()  # Assuming you hav
 class Cloud:
     def __init__(self):
         self.x = random.randint(screen_width, screen_width + 100)  # Start offscreen
-        self.y = random.randint(50, screen_height - 100)
+        self.y = random.randint(10, screen_height - 100)
         self.speed = random.uniform(0.5, 1.5)  # Randomize speed
         self.image = cloud_image
 
@@ -32,7 +32,7 @@ class Cloud:
         self.x -= self.speed
         if self.x < -self.image.get_width():  # Offscreen?  Respawn!
             self.x = random.randint(screen_width, screen_width + 100)
-            self.y = random.randint(50, screen_height - 100)  
+            self.y = random.randint(10, screen_height - 100)  
             self.speed = random.uniform(0.5, 1.5) 
 
     def draw(self, screen):
@@ -233,7 +233,7 @@ font = pygame.font.SysFont('Arial', 30)
 last_led_update = time.time()
 led_update_interval = 0.7
 
-clouds = [Cloud() for _ in range(3)]
+clouds = [Cloud() for _ in range(5)]
 
 last_time = time.time()
 while running:
@@ -267,8 +267,6 @@ while running:
 
     time_text = font.render('Time: ' + str(int(remaining_time)), True, (255, 255, 255))
     score_text = font.render('Score: ' + str(drone.score), True, (255, 255, 255)) 
-    screen.blit(score_text, (10, 10))
-    screen.blit(time_text, (10, 50))
 
     for coin in coins: 
         coin.draw(screen) 
@@ -280,9 +278,6 @@ while running:
     seconds = int(remaining_time % 60)
 
     minutes_seconds = int(str(minutes) + str(seconds if seconds >= 10 else '0' + str(seconds)))
-    print("minutes: ", minutes)
-    print("seconds: ", seconds)
-    print(minutes_seconds)
 
     write_left_display(digit_to_7seg(abs(minutes_seconds)))
 
