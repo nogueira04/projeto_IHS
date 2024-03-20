@@ -18,7 +18,7 @@ running = True
 write_green_leds(0b0)
 write_red_leds(0b0)
 
-cloud_image = pygame.image.load("cloud.jpeg").convert_alpha()  # Assuming you have a 'cloud.png'
+cloud_image = pygame.image.load("cloud.png").convert_alpha()  # Assuming you have a 'cloud.png'
 
 # Define a Cloud class
 class Cloud:
