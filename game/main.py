@@ -18,6 +18,26 @@ running = True
 write_green_leds(0b0)
 write_red_leds(0b0)
 
+cloud_image = pygame.image.load("cloud.jpeg").convert_alpha()  # Assuming you have a 'cloud.png'
+
+# Define a Cloud class
+class Cloud:
+    def __init__(self):
+        self.x = random.randint(screen_width, screen_width + 100)  # Start offscreen
+        self.y = random.randint(50, screen_height - 100)
+        self.speed = random.uniform(0.5, 1.5)  # Randomize speed
+        self.image = cloud_image
+
+    def update(self):
+        self.x -= self.speed
+        if self.x < -self.image.get_width():  # Offscreen?  Respawn!
+            self.x = random.randint(screen_width, screen_width + 100)
+            self.y = random.randint(50, screen_height - 100)  
+            self.speed = random.uniform(0.5, 1.5) 
+
+    def draw(self, screen):
+        screen.blit(self.image, (self.x, self.y))
+
 class Particle:
     def __init__(self, x, y, color, lifetime):
         self.x = x
@@ -213,6 +233,8 @@ font = pygame.font.SysFont('Arial', 30)
 last_led_update = time.time()
 led_update_interval = 0.7
 
+clouds = [Cloud() for _ in range(3)]
+
 last_time = time.time()
 while running:
     dt = time.time() - last_time
@@ -235,6 +257,10 @@ while running:
         last_led_update = current_time
 
     screen.fill((135, 206, 250))
+
+    for cloud in clouds:
+        cloud.update()
+        cloud.draw(screen)
 
     check_coin_collision() 
     spawn_coin() 
