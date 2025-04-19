@@ -2,20 +2,20 @@
 
 Este projeto foi desenvolvido como parte da disciplina **Interface Hardware-Software (IF817)**. Consiste em um jogo 2D no estilo "pega-moedas", onde o jogador controla um drone utilizando recursos integrados de hardware e software. A implementação utiliza uma placa FPGA e um driver de controle escrito em C.
 
-## 🎮 Visão Geral
+## Visão Geral
 
-- **Estilo do jogo**:2D "pega-moedas"
-- **Controle**:Drone controlado via hardware (FPGA)
-- **Integração**:Combinação de software em C com lógica programada na FPGA
+- **Estilo do jogo**: 2D "pega-moedas"
+- **Controle**: Drone controlado via hardware (FPGA)
+- **Integração**: Combinação de software em C com lógica programada na FPGA
 
-## ⚙️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-- **Linguagens**:C, Python
-- **Hardware**:Placa FPGA (Cyclone IV)
-- **Outros**:Makefile para automação de build
+- **Linguagens**: C, Python
+- **Hardware**: Placa FPGA (Cyclone IV)
+- **Outros**: Makefile para automação de build
 
 ## 📁 Estrutura do Projeto
-
+
 ```bash
 projeto_IHS/
 ├── driver/         # Código-fonte do driver em C para comunicação com a FPGA
